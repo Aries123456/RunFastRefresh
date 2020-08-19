@@ -15,11 +15,8 @@
 @implementation ViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-
-    self.view.backgroundColor = [UIColor blueColor];
-    
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 150, self.view.frame.size.width, self.view.frame.size.height - 150) style:UITableViewStylePlain];
+    [super viewDidLoad];    
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableView.backgroundColor = [UIColor clearColor];
     tableView.delegate = self;
@@ -44,7 +41,6 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleValue1) reuseIdentifier:@"UITableViewCellID"];
     }
-    cell.backgroundColor = [UIColor cyanColor];
     return cell;
 }
 @end

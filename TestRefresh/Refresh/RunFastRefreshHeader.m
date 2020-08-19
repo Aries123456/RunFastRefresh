@@ -21,7 +21,6 @@
 - (UIImageView *)stateGIFImageView{
     if (!_stateGIFImageView) {
         _stateGIFImageView = [[UIImageView alloc] init];
-        _stateGIFImageView.backgroundColor = [UIColor redColor];
         [self addSubview:_stateGIFImageView];
     }
     return _stateGIFImageView;
@@ -36,7 +35,6 @@
 
 #pragma mark - 公共方法
 - (void)setImages:(NSArray *)images forState:(MJRefreshState)state {
-
     if (images == nil) {
         return;
     }
@@ -50,20 +48,9 @@
 
 #pragma mark - 实现父类的方法
 - (void)prepare {
-    
     [super prepare];
     // 初始化间距
     self.labelLeftInset = 20;
-//    // 资源数据（GIF每一帧）
-//    NSArray *idleImages = [self getRefreshingImageArrayWithStartIndex:1 endIndex:12 isSmall:YES];
-//    NSArray *refreshingImages = [self getRefreshingImageArrayWithStartIndex:1 endIndex:12 isSmall:NO];
-//    // 普通状态
-//    [self setImages:idleImages forState:MJRefreshStateIdle];
-//    // 即将刷新状态
-//    [self setImages:refreshingImages forState:MJRefreshStatePulling];
-//    // 正在刷新状态
-//    [self setImages:refreshingImages forState:MJRefreshStateRefreshing];
-    
     // 资源数据（GIF每一帧）
     NSArray *refreshingImages = [self getRefreshingImageArrayWithStartIndex:1 endIndex:12];
     // 普通状态
@@ -75,7 +62,6 @@
 }
 
 - (void)setPullingPercent:(CGFloat)pullingPercent {
-    
     [super setPullingPercent:pullingPercent];
     NSArray *images = self.stateImages[@(MJRefreshStateIdle)];
     if (self.state != MJRefreshStateIdle || images.count == 0) {
@@ -87,11 +73,9 @@
         index = images.count - 1;
     }
     self.stateGIFImageView.image = images[index];
-    
 }
 
 - (void)placeSubviews{
-    
     [super placeSubviews];
     if (self.stateGIFImageView.constraints.count) {
         return;
@@ -103,7 +87,6 @@
 }
 
 - (void)setState:(MJRefreshState)state{
-    
     MJRefreshCheckState
     if (state == MJRefreshStatePulling || state == MJRefreshStateRefreshing) {
         NSArray *images = self.stateImages[@(state)];
@@ -121,7 +104,6 @@
 
 #pragma mark - 开始动画
 - (void)startGIFViewAnimationWithImages:(NSArray *)images{
-    
     if (images.count <= 0){
         return;
     }
@@ -137,7 +119,6 @@
     [self.stateGIFImageView startAnimating];
 }
 
-
 #pragma mark - 获取资源图片
 - (NSArray *)getRefreshingImageArrayWithStartIndex:(NSInteger)startIndex endIndex:(NSInteger)endIndex {
     NSMutableArray *result = [NSMutableArray array];
@@ -150,7 +131,7 @@
     return result;
 }
 
-- (void)scrollViewContentOffsetDidChange:(NSDictionary *)change{
+- (void)scrollViewContentOffsetDidChange:(NSDictionary *)change {
     [super scrollViewContentOffsetDidChange:change];
     UIScrollView * scrollView = (UIScrollView *)self.superview;
     if (scrollView.contentOffset.y>0)return;
@@ -162,9 +143,7 @@
             absOffsetY = self.mj_h;
         }
         CGFloat iconScale = absOffsetY / self.mj_h;
-        [UIView animateWithDuration:0.1 animations:^{
-            [self.stateGIFImageView setTransform:CGAffineTransformMakeScale(iconScale,iconScale)];
-        }];
+        [self.stateGIFImageView setTransform:CGAffineTransformMakeScale(iconScale,iconScale)];
     }else{//恢复
         [self.stateGIFImageView setTransform:CGAffineTransformMakeScale(1.0,1.0)];
     }
